@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.Language.Lang }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
+  {{ with .Description }}<meta name="description" content="{{ . }}">{{ end }}
+  {{ with .Params.keywords }}<meta name="keywords" content="{{ delimit . ", " }}">{{ end }}
+  {{ with .Permalink }}<link rel="canonical" href="{{ . }}">{{ end }}
+  {{ $css := resources.Get "css/main.css" | resources.Minify }}
+  <link rel="stylesheet" href="{{ $css.RelPermalink }}">
+</head>
+<body>
+  <header>
+    <nav><a href="{{ .Site.BaseURL }}">{{ .Site.Title }}</a></nav>
+  </header>
+  <main>
+    {{ block "main" . }}{{ end }}
+  </main>
+  <footer>
+    <p>Powered by <a href="https://gohugo.io/">Hugo</a></p>
+  </footer>
+  {{ if .Store.Get "hasMermaid" }}
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+  {{ end }}
+</body>
+</html>

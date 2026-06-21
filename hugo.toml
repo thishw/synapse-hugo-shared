@@ -1,0 +1,8 @@
+# synapse-hugo-shared — Hugo Module (theme component)
+# This is a shared layout module, not a standalone site.
+# It provides layouts/ and assets/ only. No content, no baseURL, no title.
+
+[module]
+  [module.hugoVersion]
+    extended = true
+    min      = "0.116.0"
