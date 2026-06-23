@@ -12,7 +12,14 @@
 </head>
 <body>
   <header>
-    <nav><a href="{{ .Site.BaseURL }}">{{ .Site.Title }}</a></nav>
+    <nav class="site-nav">
+      <a class="site-title" href="{{ .Site.BaseURL }}">{{ .Site.Title }}</a>
+      {{- with site.Menus.main }}
+      <div class="nav-menu">
+        {{ partial "menu.html" (dict "page" $ "menuEntries" .) }}
+      </div>
+      {{- end }}
+    </nav>
   </header>
   <main>
     {{ block "main" . }}{{ end }}

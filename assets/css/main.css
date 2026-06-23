@@ -75,10 +75,123 @@ pre.mermaid {
 .post-date { flex-shrink: 0; font-size: 0.85rem; color: #999; }
 .post-desc { margin: 0.45rem 0 0; color: #555; font-size: 0.95rem; }
 
-/* Responsive */
+/* ── Site Navigation ──────────────────────────────────────────── */
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.site-title {
+  font-weight: 700;
+  text-decoration: none;
+  color: #1a1a1a;
+  white-space: nowrap;
+}
+
+.nav-menu { flex: 1; }
+
+/* Top-level menu list */
+.menu-list {
+  display: flex;
+  gap: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu-item { position: relative; }
+
+.menu-link {
+  display: block;
+  padding: 0.4rem 0.85rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #444;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.menu-link:hover {
+  background: #f0f4ff;
+  color: #0066cc;
+}
+
+.menu-link.active {
+  background: #e8f0fe;
+  color: #0052aa;
+  font-weight: 600;
+}
+
+/* Dropdown (nested children) */
+.menu-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 140px;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  list-style: none;
+  margin: 0;
+  padding: 0.3rem 0;
+  z-index: 100;
+}
+
+.menu-item:hover > .menu-dropdown { display: block; }
+
+.menu-dropdown .menu-link {
+  padding: 0.35rem 1rem;
+  border-radius: 0;
+  font-size: 0.9rem;
+}
+
+/* ── Taxonomy (category list) ────────────────────────────────── */
+.taxonomy-desc { color: #666; margin-bottom: 1.5rem; }
+
+.taxonomy-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.taxonomy-item {
+  border-bottom: 1px solid #eee;
+}
+.taxonomy-item:last-child { border-bottom: none; }
+
+.taxonomy-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 0;
+  text-decoration: none;
+  color: #1a1a1a;
+  gap: 1rem;
+}
+.taxonomy-link:hover .taxonomy-name { color: #0066cc; }
+
+.taxonomy-name { font-size: 1.05rem; font-weight: 600; }
+.taxonomy-count { font-size: 0.85rem; color: #999; flex-shrink: 0; }
+.taxonomy-empty { color: #aaa; padding: 1rem 0; }
+
+/* ── Term page (articles in one category) ─────────────────────── */
+.term-back { margin-bottom: 1.5rem; }
+.term-back a { font-size: 0.9rem; color: #666; text-decoration: none; }
+.term-back a:hover { color: #0066cc; }
+
+/* ── Responsive ───────────────────────────────────────────────── */
 @media (max-width: 600px) {
   body { font-size: 0.95rem; }
   table { font-size: 0.8rem; }
   th, td { padding: 0.4rem 0.6rem; }
   .post-link { flex-direction: column; gap: 0.2rem; }
+  .site-nav { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+  .menu-list { flex-wrap: wrap; }
+  .menu-link { padding: 0.35rem 0.6rem; font-size: 0.9rem; }
+  .taxonomy-link { flex-direction: column; align-items: flex-start; gap: 0.15rem; }
 }

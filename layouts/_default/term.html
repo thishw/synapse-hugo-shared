@@ -1,0 +1,17 @@
+{{ define "main" }}
+<h1>{{ .Title }}</h1>
+<p class="term-back"><a href="{{ .Parent.Permalink }}">← 모든 카테고리</a></p>
+<ul class="post-list">
+  {{ range .Pages }}
+  <li class="post-item">
+    <a class="post-link" href="{{ .Permalink }}">
+      <span class="post-title">{{ .Title }}</span>
+      <time class="post-date" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006년 1월 2일" }}</time>
+    </a>
+    {{ with .Description }}<p class="post-desc">{{ . }}</p>{{ end }}
+  </li>
+  {{ else }}
+  <li>이 카테고리에 글이 없습니다.</li>
+  {{ end }}
+</ul>
+{{ end }}
