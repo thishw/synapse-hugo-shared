@@ -1,12 +1,14 @@
 {{ define "main" }}
 <h1>{{ .Title }}</h1>
 {{ .Content }}
-<ul>
+<ul class="post-list">
   {{ range (where .Site.RegularPages "Section" "posts") }}
-  <li>
-    <a href="{{ .Permalink }}">{{ .Title }}</a>
-    <time>{{ .Date.Format "2006-01-02" }}</time>
-    {{ with .Description }}<p>{{ . }}</p>{{ end }}
+  <li class="post-item">
+    <a class="post-link" href="{{ .Permalink }}">
+      <span class="post-title">{{ .Title }}</span>
+      <time class="post-date" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006년 1월 2일" }}</time>
+    </a>
+    {{ with .Description }}<p class="post-desc">{{ . }}</p>{{ end }}
   </li>
   {{ end }}
 </ul>

@@ -59,9 +59,26 @@ pre.mermaid {
   text-align: center;
 }
 
+/* Post list (home) */
+.post-list { list-style: none; padding: 0; margin: 2.5rem 0; }
+.post-item { padding: 1.25rem 0; border-bottom: 1px solid #eee; }
+.post-item:last-child { border-bottom: none; }
+.post-link {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  text-decoration: none;
+}
+.post-title { font-size: 1.2rem; font-weight: 600; color: #1a1a1a; }
+.post-link:hover .post-title { color: #0066cc; }
+.post-date { flex-shrink: 0; font-size: 0.85rem; color: #999; }
+.post-desc { margin: 0.45rem 0 0; color: #555; font-size: 0.95rem; }
+
 /* Responsive */
 @media (max-width: 600px) {
   body { font-size: 0.95rem; }
   table { font-size: 0.8rem; }
   th, td { padding: 0.4rem 0.6rem; }
+  .post-link { flex-direction: column; gap: 0.2rem; }
 }
