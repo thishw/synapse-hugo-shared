@@ -8,10 +8,12 @@
   {{ with .Params.keywords }}<meta name="keywords" content="{{ delimit . ", " }}">{{ end }}
   {{ with .Permalink }}<link rel="canonical" href="{{ . }}">{{ end }}
   {{ partial "head/social-meta.html" . }}
+  {{ partial "head/gtm.html" . }}
   {{ $css := resources.Get "css/main.css" | resources.Minify }}
   <link rel="stylesheet" href="{{ $css.RelPermalink }}">
 </head>
 <body>
+  {{ partial "body/gtm-noscript.html" . }}
   <header>
     <nav class="site-nav">
       <a class="site-title" href="{{ .Site.BaseURL }}">{{ .Site.Title }}</a>
@@ -33,6 +35,10 @@
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11.15.0/dist/mermaid.esm.min.mjs';
     mermaid.initialize({ startOnLoad: true });
   </script>
+  {{ end }}
+  {{ with .Site.Params.gtm_id }}
+  {{ $track := resources.Get "js/tracking.js" | resources.Minify }}
+  <script src="{{ $track.RelPermalink }}" defer></script>
   {{ end }}
 </body>
 </html>
