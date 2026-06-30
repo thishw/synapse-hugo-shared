@@ -1,0 +1,13 @@
+{{- with .Site.Params.daum_verification -}}
+#DaumWebMasterTool:{{ . }}
+{{ end -}}
+User-agent: *
+Allow: /
+
+User-agent: Yeti
+Allow: /
+
+User-agent: Daumoa
+Allow: /
+
+Sitemap: {{ "sitemap.xml" | absURL }}
