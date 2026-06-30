@@ -9,6 +9,9 @@
   {{ with .Permalink }}<link rel="canonical" href="{{ . }}">{{ end }}
   {{ partial "head/social-meta.html" . }}
   {{ partial "head/gtm.html" . }}
+  {{ partial "head/jsonld-site.html" . }}
+  {{ partial "head/search-verification.html" . }}
+  {{ partial "head/adsense.html" . }}
   {{ $css := resources.Get "css/main.css" | resources.Minify }}
   <link rel="stylesheet" href="{{ $css.RelPermalink }}">
 </head>

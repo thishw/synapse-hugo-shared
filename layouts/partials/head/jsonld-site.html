@@ -1,0 +1,7 @@
+{{- if .IsHome -}}
+{{- $data := dict "@context" "https://schema.org" "@type" "WebSite" "name" .Site.Title "url" .Site.BaseURL -}}
+{{- with .Site.Params.description }}{{ $data = merge $data (dict "description" .) }}{{ end -}}
+<script type="application/ld+json">
+{{ $data | jsonify (dict "indent" "  ") | safeJS }}
+</script>
+{{- end -}}
