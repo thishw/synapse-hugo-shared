@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ .Site.Language.Lang }}">
+<html lang="{{ .Site.Language.Lang }}"{{ with .Site.Params.site_key }} data-site-key="{{ . }}"{{ end }}>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +7,7 @@
   {{ with .Description }}<meta name="description" content="{{ . }}">{{ end }}
   {{ with .Params.keywords }}<meta name="keywords" content="{{ delimit . ", " }}">{{ end }}
   {{ with .Permalink }}<link rel="canonical" href="{{ . }}">{{ end }}
+  {{ partial "head/social-meta.html" . }}
   {{ $css := resources.Get "css/main.css" | resources.Minify }}
   <link rel="stylesheet" href="{{ $css.RelPermalink }}">
 </head>

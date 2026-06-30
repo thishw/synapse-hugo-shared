@@ -1,0 +1,30 @@
+{{- $title := cond .IsHome .Site.Title (printf "%s | %s" .Title .Site.Title) -}}
+{{- $desc := .Description | default .Site.Params.description -}}
+{{- $ogtype := cond .IsHome "website" "article" -}}
+{{- $img := .Params.og_image | default .Site.Params.og_image -}}
+<meta property="og:title" content="{{ $title }}">
+{{- with $desc }}
+<meta property="og:description" content="{{ . }}">
+{{- end }}
+<meta property="og:type" content="{{ $ogtype }}">
+<meta property="og:url" content="{{ .Permalink }}">
+{{- with .Site.Params.og_site_name }}
+<meta property="og:site_name" content="{{ . }}">
+{{- end }}
+{{- with .Site.Params.og_locale }}
+<meta property="og:locale" content="{{ . }}">
+{{- end }}
+{{- with $img }}
+<meta property="og:image" content="{{ . | absURL }}">
+{{- end }}
+{{- if not .IsHome }}{{ with .PublishDate }}
+<meta property="article:published_time" content="{{ .Format "2006-01-02T15:04:05Z07:00" }}">
+{{- end }}{{ end }}
+<meta name="twitter:card" content="{{ cond (ne $img "") "summary_large_image" "summary" }}">
+<meta name="twitter:title" content="{{ $title }}">
+{{- with $desc }}
+<meta name="twitter:description" content="{{ . }}">
+{{- end }}
+{{- with $img }}
+<meta name="twitter:image" content="{{ . | absURL }}">
+{{- end }}
