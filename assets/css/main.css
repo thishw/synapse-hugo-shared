@@ -320,3 +320,13 @@ pre.mermaid {
   .menu-link { padding: 0.35rem 0.6rem; font-size: 0.9rem; }
   .taxonomy-link { flex-direction: column; align-items: flex-start; gap: 0.15rem; }
 }
+
+/* ── Breadcrumb ──────────────────────────────────────────────── */
+.breadcrumb { font-size: 0.85rem; color: #888; margin-bottom: 0.9rem; }
+.breadcrumb a { color: #888; text-decoration: none; }
+.breadcrumb a:hover { color: #0066cc; }
+.crumb-sep { margin: 0 0.15rem; color: #bbb; }
+
+/* Term hub intro (_index.md 소개문) */
+.term-intro { color: #555; line-height: 1.75; margin-bottom: 0.5rem; }
+.term-intro p { margin: 0 0 0.8em; }

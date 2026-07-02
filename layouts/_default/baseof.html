@@ -7,6 +7,7 @@
   {{ with .Description }}<meta name="description" content="{{ . }}">{{ end }}
   {{ with .Params.keywords }}<meta name="keywords" content="{{ delimit . ", " }}">{{ end }}
   {{ with .Permalink }}<link rel="canonical" href="{{ . }}">{{ end }}
+  {{ if and (eq .Kind "term") (lt (len .Pages) 5) }}<meta name="robots" content="noindex,follow">{{ end }}
   {{ partial "head/social-meta.html" . }}
   {{ partial "head/gtm.html" . }}
   {{ partial "head/jsonld-site.html" . }}

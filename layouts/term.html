@@ -1,5 +1,6 @@
 {{ define "main" }}
 <h1>{{ .Title }}</h1>
+{{ with .Content }}<div class="term-intro">{{ . }}</div>{{ end }}
 <p class="term-back"><a href="{{ .Parent.Permalink }}">← 모든 카테고리</a></p>
 <ul class="post-list">
   {{ range .Pages }}
