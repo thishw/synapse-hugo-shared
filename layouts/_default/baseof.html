@@ -27,9 +27,12 @@
       {{- end }}
     </nav>
   </header>
-  <main>
-    {{ block "main" . }}{{ end }}
-  </main>
+  <div class="layout">
+    <main>
+      {{ block "main" . }}{{ end }}
+    </main>
+    {{ partial "sidebar.html" . }}
+  </div>
   <footer>
     <p>Powered by <a href="https://gohugo.io/">Hugo</a></p>
   </footer>
@@ -43,5 +46,7 @@
   {{ $track := resources.Get "js/tracking.js" | resources.Minify }}
   <script src="{{ $track.RelPermalink }}" defer></script>
   {{ end }}
+  {{ $search := resources.Get "js/search.js" | resources.Minify }}
+  <script src="{{ $search.RelPermalink }}" defer></script>
 </body>
 </html>

@@ -1,0 +1,34 @@
+<aside class="sidebar">
+  <div class="sidebar-block sidebar-search">
+    <label class="sidebar-heading" for="site-search">검색</label>
+    <input type="search" id="site-search" class="search-input" placeholder="글 검색…"
+           autocomplete="off" data-index-url="{{ "index.json" | absURL }}">
+    <ul class="search-results" id="search-results" hidden></ul>
+  </div>
+
+  {{ $recent := first 8 site.RegularPages }}
+  {{ with $recent }}
+  <div class="sidebar-block">
+    <h2 class="sidebar-heading">최근 글</h2>
+    <ul class="sidebar-list">
+      {{ range . }}
+      <li class="sidebar-item">
+        <a href="{{ .RelPermalink }}" class="sidebar-link{{ if eq . $ }} active{{ end }}">{{ .Title }}</a>
+        <time class="sidebar-date">{{ .Date.Format "2006-01-02" }}</time>
+      </li>
+      {{ end }}
+    </ul>
+  </div>
+  {{ end }}
+
+  {{ with site.Taxonomies.categories }}
+  <div class="sidebar-block">
+    <h2 class="sidebar-heading">카테고리</h2>
+    <ul class="sidebar-list sidebar-tags">
+      {{ range .ByCount }}
+      <li><a href="{{ .Page.RelPermalink }}" class="sidebar-tag">{{ .Page.Title }} <span class="tag-count">{{ .Count }}</span></a></li>
+      {{ end }}
+    </ul>
+  </div>
+  {{ end }}
+</aside>
