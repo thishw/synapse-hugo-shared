@@ -1,0 +1,13 @@
+# {{ site.Title }}
+
+> {{ site.Params.description }}
+
+{{ with site.Params.author }}Author: {{ . }}
+{{ end }}
+## 글 목록
+{{ range site.RegularPages }}
+- [{{ .Title }}]({{ .Permalink }}): {{ .Description }}{{ end }}
+
+## 카테고리
+{{ range site.Taxonomies.categories.ByCount }}
+- [{{ .Page.Title }}]({{ .Page.Permalink }}) ({{ .Count }}편){{ end }}
