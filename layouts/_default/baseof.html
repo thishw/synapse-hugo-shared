@@ -7,8 +7,14 @@
   {{ with .Description }}<meta name="description" content="{{ . }}">{{ end }}
   {{ with .Params.keywords }}<meta name="keywords" content="{{ delimit . ", " }}">{{ end }}
   {{ with .Permalink }}<link rel="canonical" href="{{ . }}">{{ end }}
-  {{ if and (eq .Kind "term") (lt (len .Pages) 5) }}<meta name="robots" content="noindex,follow">{{ end }}
+  {{ $thinTerm := and (eq .Kind "term") (lt (len .Pages) 5) }}
+  {{ $emptyHome := and (eq .Kind "home") (eq (len (where .Site.RegularPages "Section" "posts")) 0) }}
+  {{ if or $thinTerm $emptyHome }}<meta name="robots" content="noindex,follow">{{ end }}
   {{ with .Site.Home.OutputFormats.Get "rss" }}<link rel="alternate" type="{{ .MediaType.Type }}" href="{{ .Permalink }}" title="{{ $.Site.Title }}">{{ end }}
+  {{ if .IsTranslated }}
+  {{ range .AllTranslations }}<link rel="alternate" hreflang="{{ .Language.Lang }}" href="{{ .Permalink }}">
+  {{ end }}
+  {{ end }}
   {{ partial "head/social-meta.html" . }}
   {{ partial "head/gtm.html" . }}
   {{ partial "head/jsonld-site.html" . }}
