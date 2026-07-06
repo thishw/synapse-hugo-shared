@@ -42,7 +42,7 @@
     {{ partial "sidebar.html" . }}
   </div>
   <footer>
-    <p>© {{ now.Year }} {{ .Site.Params.author | default .Site.Title }} · All rights reserved.{{ with .Site.GetPage "/about" }} · <a href="{{ .RelPermalink }}">소개</a>{{ end }}{{ with .Site.GetPage "/privacy" }} · <a href="{{ .RelPermalink }}">개인정보처리방침</a>{{ end }}</p>
+    <p>© {{ now.Year }} {{ .Site.Params.author | default .Site.Title }} · All rights reserved.{{ with .Site.GetPage "/about" }} · <a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ end }}{{ with .Site.GetPage "/privacy" }} · <a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ end }}</p>
   </footer>
   {{ if .Store.Get "hasMermaid" }}
   <script type="module">

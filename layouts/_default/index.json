@@ -1,5 +1,5 @@
 {{- $posts := slice -}}
-{{- range site.RegularPages -}}
+{{- range where site.RegularPages "Section" "posts" -}}
   {{- $posts = $posts | append (dict
         "title" .Title
         "url" .RelPermalink

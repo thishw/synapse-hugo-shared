@@ -7,7 +7,7 @@
       {{ with $catPage }} <span class="crumb-sep">›</span> <a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ end }}
     </nav>
     <h1>{{ .Title }}</h1>
-    <time>{{ .Date.Format "2006-01-02" }}</time>
+    {{ if eq .Section "posts" }}<time>{{ .Date.Format "2006-01-02" }}</time>{{ end }}
     {{ if $catPage }}
     <script type="application/ld+json">
     {{ dict
@@ -20,6 +20,7 @@
       | jsonify | safeJS }}
     </script>
     {{ end }}
+    {{ if eq .Section "posts" }}
     <script type="application/ld+json">
     {{ dict
         "@context" "https://schema.org"
@@ -36,6 +37,18 @@
         "publisher" (dict "@type" "Organization" "name" site.Title "url" site.BaseURL)
       | jsonify | safeJS }}
     </script>
+    {{ else }}
+    <script type="application/ld+json">
+    {{ dict
+        "@context" "https://schema.org"
+        "@type" (cond (eq .File.ContentBaseName "about") "AboutPage" "WebPage")
+        "name" .Title
+        "description" (.Description | default "")
+        "inLanguage" (site.Language.Lang)
+        "url" .Permalink
+      | jsonify | safeJS }}
+    </script>
+    {{ end }}
   </header>
   <div class="content">
     {{ .Content }}

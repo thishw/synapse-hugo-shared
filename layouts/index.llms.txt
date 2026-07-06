@@ -5,7 +5,7 @@
 {{ with site.Params.author }}Author: {{ . }}
 {{ end }}
 ## 글 목록
-{{ range site.RegularPages }}
+{{ range where site.RegularPages "Section" "posts" }}
 - [{{ .Title }}]({{ .Permalink }}): {{ .Description }}{{ end }}
 
 ## 카테고리
