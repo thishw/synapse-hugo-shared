@@ -9,10 +9,16 @@
     var el = e.target.closest("[data-track], a, button");
     if (!el) return;
     var category = el.getAttribute("data-category") || (el.tagName === "A" ? "link" : "button");
-    var action = el.getAttribute("data-action") || "click";
+    var isExternal = el.tagName === "A" && el.hostname && el.hostname !== location.hostname;
+    var action = el.getAttribute("data-action");
+    if (!action) {
+      action = isExternal ? "outbound_click" : (el.tagName === "A" ? "link_click" : "button_click");
+    }
+    action = action.toLowerCase().replace(/[^a-z0-9_]/g, "_");
+    if (/^[0-9]/.test(action)) action = "e_" + action;
+    action = action.slice(0, 40);
     var href = el.getAttribute("href");
     var label = el.getAttribute("data-label") || href || (el.textContent || "").trim().slice(0, 80);
-    var isExternal = el.tagName === "A" && el.hostname && el.hostname !== location.hostname;
     push({
       event: "user_interaction",
       interaction_category: isExternal ? "outbound" : category,
