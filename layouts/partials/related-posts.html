@@ -1,0 +1,21 @@
+{{/*
+  관련 글 — Hugo Related Content 기반 자동 생성.
+  각 글의 keywords/categories 메타로 매 빌드마다 계산되므로, 새 글을 올리면
+  전체 재빌드 과정에서 관련 옛 글에도 자동 반영된다(옛 글 마크다운 수정 불필요).
+*/}}
+{{ if eq .Section "posts" }}
+  {{ $related := where (site.RegularPages.Related .) "Section" "posts" | first 4 }}
+  {{ with $related }}
+  <nav class="related-posts" aria-label="관련 글">
+    <h2>관련 글</h2>
+    <ul>
+      {{ range . }}
+      <li>
+        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>
+      </li>
+      {{ end }}
+    </ul>
+  </nav>
+  {{ end }}
+{{ end }}
