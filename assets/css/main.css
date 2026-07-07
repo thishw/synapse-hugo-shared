@@ -98,6 +98,24 @@ pre.mermaid {
   text-align: center;
 }
 
+/* Sources block (Syndicator WP-60 v2 — 접이식 출처 표기) */
+details.sources {
+  margin: 2rem 0;
+  padding: 0.9rem 1.2rem;
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+details.sources summary {
+  cursor: pointer;
+  color: #666;
+  font-weight: 600;
+}
+details.sources summary:hover { color: #0066cc; }
+details.sources ul { margin: 0.9rem 0 0; padding-left: 1.4em; }
+details.sources li { margin-bottom: 0.5em; line-height: 1.6; }
+details.sources li:last-child { margin-bottom: 0; }
+
 /* Post list (home) */
 .post-list { list-style: none; padding: 0; margin: 2.5rem 0; }
 .post-item { padding: 1.25rem 0; border-bottom: 1px solid #eee; }
