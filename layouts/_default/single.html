@@ -8,6 +8,50 @@
     </nav>
     <h1>{{ .Title }}</h1>
     {{ if eq .Section "posts" }}<time>{{ .Date.Format "2006-01-02" }}</time>{{ end }}
+    {{- $mt := .Params.media_type -}}
+    {{- if or (eq $mt "news") (eq $mt "local_business") (eq $mt "webpage") -}}
+    {{- /* Syndicator 매체: pulse 검증 로직 — main-entity JSON-LD 정확히 1개, breadcrumb JSON-LD 미포함 */ -}}
+    {{- $org := dict "@type" "Organization" "name" site.Title "url" site.BaseURL -}}
+    {{- $article := dict
+          "@context" "https://schema.org" "headline" .Title
+          "description" (.Description | default (.Summary | plainify))
+          "datePublished" (.Date.Format "2006-01-02T15:04:05Z07:00")
+          "dateModified" (.Lastmod.Format "2006-01-02T15:04:05Z07:00")
+          "inLanguage" (site.Language.LanguageCode | default "en")
+          "mainEntityOfPage" .Permalink "url" .Permalink "author" $org "publisher" $org -}}
+    {{- $schema := dict -}}
+    {{- if eq $mt "news" -}}
+      {{- $schema = merge $article (dict "@type" "NewsArticle") -}}
+      {{- with .Params.news -}}
+        {{- with .dateline }}{{ $schema = merge $schema (dict "dateline" .) }}{{ end -}}
+        {{- $names := .source_names | default slice -}}{{- $citations := slice -}}
+        {{- range $i, $u := (.source_urls | default slice) -}}
+          {{- $c := dict "@type" "CreativeWork" "url" $u -}}
+          {{- if gt (len $names) $i }}{{ $c = merge $c (dict "name" (index $names $i)) }}{{ end -}}
+          {{- $citations = $citations | append $c -}}
+        {{- end -}}
+        {{- with $citations }}{{ $schema = merge $schema (dict "citation" .) }}{{ end -}}
+      {{- end -}}
+    {{- else if eq $mt "local_business" -}}
+      {{- $lb := dict "@context" "https://schema.org" "@type" "LocalBusiness" "url" .Permalink "mainEntityOfPage" .Permalink -}}
+      {{- with .Params.local_business -}}
+        {{- with .business_name }}{{ $lb = merge $lb (dict "name" .) }}{{ end -}}
+        {{- with .address_en }}{{ $lb = merge $lb (dict "address" .) }}{{ end -}}
+        {{- if and (isset . "latitude") (isset . "longitude") -}}
+          {{- $lb = merge $lb (dict "geo" (dict "@type" "GeoCoordinates" "latitude" .latitude "longitude" .longitude)) -}}
+        {{- end -}}
+        {{- with .rating }}{{ $lb = merge $lb (dict "aggregateRating" (dict "@type" "AggregateRating" "ratingValue" . "bestRating" 5)) }}{{ end -}}
+        {{- with .price_range }}{{ $lb = merge $lb (dict "priceRange" .) }}{{ end -}}
+      {{- end -}}
+      {{- $schema = $lb -}}
+    {{- else if eq $mt "webpage" -}}
+      {{- $schema = dict "@context" "https://schema.org" "@type" "WebPage" "name" .Title
+            "description" (.Description | default (.Summary | plainify)) "url" .Permalink
+            "inLanguage" (site.Language.LanguageCode | default "en")
+            "isPartOf" (dict "@type" "WebSite" "name" site.Title "url" site.BaseURL) -}}
+    {{- end }}
+    <script type="application/ld+json">{{ $schema | jsonify | safeJS }}</script>
+    {{- else }}
     {{ if $catPage }}
     <script type="application/ld+json">
     {{ dict
@@ -49,9 +93,16 @@
       | jsonify | safeJS }}
     </script>
     {{ end }}
+    {{- end }}
   </header>
   <div class="content">
     {{ .Content }}
+    {{- if site.Params.show_term_chips }}
+<div class="post-terms">
+  {{ range .GetTerms "categories" }}<a class="term-chip" href="{{ .RelPermalink }}">{{ .Title }}</a>{{ end }}
+  {{ if site.Taxonomies.keywords }}{{ range .GetTerms "keywords" }}<a class="term-chip" href="{{ .RelPermalink }}">{{ .Title }}</a>{{ end }}{{ end }}
+</div>
+    {{- end }}
   </div>
 </article>
 {{ partial "related-posts.html" . }}
