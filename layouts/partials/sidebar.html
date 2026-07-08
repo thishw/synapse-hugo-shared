@@ -23,7 +23,7 @@
 
   {{ with site.Taxonomies.categories }}
   <div class="sidebar-block">
-    <h2 class="sidebar-heading">카테고리</h2>
+    <h2 class="sidebar-heading">{{ site.Params.label_categories | default "카테고리" }}</h2>
     <ul class="sidebar-list sidebar-tags">
       {{ range .ByCount }}
       <li><a href="{{ .Page.RelPermalink }}" class="sidebar-tag">{{ .Page.Title }} <span class="tag-count">{{ .Count }}</span></a></li>
