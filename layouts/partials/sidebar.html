@@ -1,7 +1,7 @@
 <aside class="sidebar">
   <div class="sidebar-block sidebar-search">
-    <label class="sidebar-heading" for="site-search">검색</label>
-    <input type="search" id="site-search" class="search-input" placeholder="글 검색…"
+    <label class="sidebar-heading" for="site-search">{{ site.Params.label_search | default "검색" }}</label>
+    <input type="search" id="site-search" class="search-input" placeholder="{{ site.Params.label_search_placeholder | default "글 검색…" }}"
            autocomplete="off" data-index-url="{{ "index.json" | absURL }}">
     <ul class="search-results" id="search-results" hidden></ul>
   </div>
@@ -9,7 +9,7 @@
   {{ $recent := first 8 (where site.RegularPages "Section" "posts") }}
   {{ with $recent }}
   <div class="sidebar-block">
-    <h2 class="sidebar-heading">최근 글</h2>
+    <h2 class="sidebar-heading">{{ site.Params.label_recent | default "최근 글" }}</h2>
     <ul class="sidebar-list">
       {{ range . }}
       <li class="sidebar-item">

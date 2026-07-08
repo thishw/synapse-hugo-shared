@@ -3,7 +3,7 @@
   <header>
     {{ $catPage := "" }}{{ with .GetTerms "categories" }}{{ $catPage = index . 0 }}{{ end }}
     <nav class="breadcrumb" aria-label="breadcrumb">
-      <a href="{{ site.BaseURL }}">홈</a>
+      <a href="{{ site.BaseURL }}">{{ site.Params.label_home | default "홈" }}</a>
       {{ with $catPage }} <span class="crumb-sep">›</span> <a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ end }}
     </nav>
     <h1>{{ .Title }}</h1>
@@ -14,7 +14,7 @@
         "@context" "https://schema.org"
         "@type" "BreadcrumbList"
         "itemListElement" (slice
-          (dict "@type" "ListItem" "position" 1 "name" "홈" "item" site.BaseURL)
+          (dict "@type" "ListItem" "position" 1 "name" (site.Params.label_home | default "홈") "item" site.BaseURL)
           (dict "@type" "ListItem" "position" 2 "name" $catPage.Title "item" $catPage.Permalink)
           (dict "@type" "ListItem" "position" 3 "name" .Title))
       | jsonify | safeJS }}

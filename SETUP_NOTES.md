@@ -33,7 +33,7 @@ synapse-hugo-shared/
 ```
 module github.com/thishw/synapse-hugo-shared
 
-go 1.22
+go 1.26
 ```
 
 모듈 경로: `github.com/thishw/synapse-hugo-shared`
@@ -67,7 +67,7 @@ go 1.22
 | `goldmark unsafe=true` 미포함 | README 안내로 대체 | 이 설정은 소비 사이트 hugo.toml에만 유효 |
 | `content/` 미포함 | 의도적 제외 | 공통 레이아웃 모듈은 레이아웃/에셋만 제공 |
 | `.github/workflows/` 미포함 | 의도적 제외 | 공통 레포는 자체 배포 없음 |
-| `go` 버전 1.22 명시 | go.mod 직접 작성 | 로컬에 go 미설치, Hugo 0.163.3 기준 호환 버전 |
+| `go` 버전 1.26 명시 | go.mod 직접 작성 | 로컬에 go 미설치, Hugo 0.163.3 기준 호환 버전 |
 
 ---
 

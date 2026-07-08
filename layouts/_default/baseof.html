@@ -22,6 +22,7 @@
   {{ partial "head/adsense.html" . }}
   {{ $css := resources.Get "css/main.css" | resources.Minify }}
   <link rel="stylesheet" href="{{ $css.RelPermalink }}">
+  {{- partial "head/accent-color.html" . }}
 </head>
 <body>
   {{ partial "body/gtm-noscript.html" . }}
