@@ -234,6 +234,12 @@ details.sources li:last-child { margin-bottom: 0; }
   white-space: nowrap;
 }
 
+.site-logo {
+  height: 28px;
+  width: auto;
+  display: block;
+}
+
 .nav-menu { flex: 1; }
 
 /* Top-level menu list */

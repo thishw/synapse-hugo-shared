@@ -28,7 +28,7 @@
   {{ partial "body/gtm-noscript.html" . }}
   <header>
     <nav class="site-nav">
-      <a class="site-title" href="{{ .Site.BaseURL }}">{{ .Site.Title }}</a>
+      {{ $logo := site.Params.logo }}{{ $logoDark := site.Params.logo_dark }}<a class="site-title" href="{{ .Site.BaseURL }}">{{ if $logo }}{{ if $logoDark }}<picture><source srcset="{{ $logoDark }}" media="(prefers-color-scheme: dark)"><img class="site-logo" src="{{ $logo }}" alt="{{ .Site.Title }}"></picture>{{ else }}<img class="site-logo" src="{{ $logo }}" alt="{{ .Site.Title }}">{{ end }}{{ else }}{{ .Site.Title }}{{ end }}</a>
       {{- with site.Menus.main }}
       <div class="nav-menu">
         {{ partial "menu.html" (dict "page" $ "menuEntries" .) }}
