@@ -1,3 +1,3 @@
-module github.com/thishw/synapse-hugo-shared
+module github.com/thishw/media-hugo-shared
 
 go 1.26
