@@ -1,15 +1,41 @@
 {{ define "main" }}
 <h1>{{ .Title }}</h1>
 {{ .Content }}
+{{ $posts := where .Site.RegularPages "Section" "posts" }}
+{{ $paginator := .Paginate $posts }}
 <ul class="post-list">
-  {{ range (where .Site.RegularPages "Section" "posts") }}
+  {{ range $paginator.Pages }}
+  {{ $permalink := .Permalink }}
   <li class="post-item">
-    <a class="post-link" href="{{ .Permalink }}">
+    <a class="post-link" href="{{ $permalink }}">
       <span class="post-title">{{ .Title }}</span>
       <time class="post-date" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format (site.Params.date_format | default "2006년 1월 2일") }}</time>
     </a>
-    {{ with .Description }}<p class="post-desc">{{ . }}</p>{{ end }}
+    {{ with .Description }}<p class="post-desc">{{ . }} <a class="post-more" href="{{ $permalink }}">{{ site.Params.label_read_more | default "더 읽기 →" }}</a></p>{{ end }}
   </li>
   {{ end }}
 </ul>
+{{ if gt $paginator.TotalPages 1 }}
+<nav class="pagination" aria-label="{{ site.Params.label_pagination | default "페이지 내비게이션" }}">
+  {{ if $paginator.HasPrev }}
+    <a class="pagination-prev" href="{{ $paginator.Prev.URL }}">{{ site.Params.label_prev | default "← 이전" }}</a>
+  {{ else }}
+    <span class="pagination-prev is-disabled">{{ site.Params.label_prev | default "← 이전" }}</span>
+  {{ end }}
+  <span class="pagination-pages">
+    {{ range $paginator.Pagers }}
+      {{ if eq .PageNumber $paginator.PageNumber }}
+        <span class="pagination-page is-current">{{ .PageNumber }}</span>
+      {{ else }}
+        <a class="pagination-page" href="{{ .URL }}">{{ .PageNumber }}</a>
+      {{ end }}
+    {{ end }}
+  </span>
+  {{ if $paginator.HasNext }}
+    <a class="pagination-next" href="{{ $paginator.Next.URL }}">{{ site.Params.label_next | default "다음 →" }}</a>
+  {{ else }}
+    <span class="pagination-next is-disabled">{{ site.Params.label_next | default "다음 →" }}</span>
+  {{ end }}
+</nav>
+{{ end }}
 {{ end }}
