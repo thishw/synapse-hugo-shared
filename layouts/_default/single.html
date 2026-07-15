@@ -10,7 +10,7 @@
     {{ if eq .Section "posts" }}<time>{{ .Date.Format "2006-01-02" }}</time>{{ end }}
     {{- $mt := .Params.media_type -}}
     {{- if or (eq $mt "news") (eq $mt "local_business") (eq $mt "webpage") -}}
-    {{- /* Syndicator 매체: pulse 검증 로직 — main-entity JSON-LD 정확히 1개, breadcrumb JSON-LD 미포함 */ -}}
+    {{- /* Syndicator 매체: pulse 검증 로직 — main-entity JSON-LD 정확히 1개, breadcrumb JSON-LD 포함(카테고리 존재 시) */ -}}
     {{- $org := dict "@type" "Organization" "name" site.Title "url" site.BaseURL -}}
     {{- $article := dict
           "@context" "https://schema.org" "headline" .Title
@@ -51,6 +51,17 @@
             "isPartOf" (dict "@type" "WebSite" "name" site.Title "url" site.BaseURL) -}}
     {{- end }}
     <script type="application/ld+json">{{ $schema | jsonify | safeJS }}</script>
+    {{ if $catPage }}
+    <script type="application/ld+json">
+    {{ dict
+        "@context" "https://schema.org" "@type" "BreadcrumbList"
+        "itemListElement" (slice
+          (dict "@type" "ListItem" "position" 1 "name" (site.Params.label_home | default "홈") "item" site.BaseURL)
+          (dict "@type" "ListItem" "position" 2 "name" $catPage.Title "item" $catPage.Permalink)
+          (dict "@type" "ListItem" "position" 3 "name" .Title))
+      | jsonify | safeJS }}
+    </script>
+    {{ end }}
     {{- else }}
     {{ if $catPage }}
     <script type="application/ld+json">
