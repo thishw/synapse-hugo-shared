@@ -7,9 +7,7 @@
   {{ with .Description }}<meta name="description" content="{{ . }}">{{ end }}
   {{ with .Params.keywords }}<meta name="keywords" content="{{ delimit . ", " }}">{{ end }}
   {{ with .Permalink }}<link rel="canonical" href="{{ . }}">{{ end }}
-  {{ $thinTerm := and (eq .Kind "term") (lt (len .Pages) 5) }}
-  {{ $emptyHome := and (eq .Kind "home") (eq (len (where .Site.RegularPages "Section" "posts")) 0) }}
-  {{ if or $thinTerm $emptyHome }}<meta name="robots" content="noindex,follow">{{ end }}
+  {{ if partial "is-noindex.html" . }}<meta name="robots" content="noindex,follow">{{ end }}
   {{ with .Site.Home.OutputFormats.Get "rss" }}<link rel="alternate" type="{{ .MediaType.Type }}" href="{{ .Permalink }}" title="{{ $.Site.Title }}">{{ end }}
   {{ if .IsTranslated }}
   {{ range .AllTranslations }}<link rel="alternate" hreflang="{{ .Language.Lang }}" href="{{ .Permalink }}">
@@ -33,6 +31,10 @@
       <div class="nav-menu">
         {{ partial "menu.html" (dict "page" $ "menuEntries" .) }}
       </div>
+      {{- end }}
+      {{- /* /search/ 콘텐츠가 있는 매체에만 노출 — 없는 매체(insight)는 링크 자체가 없다 */}}
+      {{- with site.GetPage "/search" }}
+      <a class="nav-search" href="{{ .RelPermalink }}">{{ site.Params.label_search | default "검색" }}</a>
       {{- end }}
     </nav>
   </header>

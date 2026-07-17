@@ -1,0 +1,25 @@
+{{- /* 페이저 마크업 — .pagination 스타일 재사용. 인자: paginator */ -}}
+{{- $paginator := .paginator -}}
+{{- if gt $paginator.TotalPages 1 }}
+<nav class="pagination" aria-label="{{ site.Params.label_pagination | default "페이지 내비게이션" }}">
+  {{ if $paginator.HasPrev }}
+    <a class="pagination-prev" href="{{ $paginator.Prev.URL }}">{{ site.Params.label_prev | default "← 이전" }}</a>
+  {{ else }}
+    <span class="pagination-prev is-disabled">{{ site.Params.label_prev | default "← 이전" }}</span>
+  {{ end }}
+  <span class="pagination-pages">
+    {{ range $paginator.Pagers }}
+      {{ if eq .PageNumber $paginator.PageNumber }}
+        <span class="pagination-page is-current">{{ .PageNumber }}</span>
+      {{ else }}
+        <a class="pagination-page" href="{{ .URL }}">{{ .PageNumber }}</a>
+      {{ end }}
+    {{ end }}
+  </span>
+  {{ if $paginator.HasNext }}
+    <a class="pagination-next" href="{{ $paginator.Next.URL }}">{{ site.Params.label_next | default "다음 →" }}</a>
+  {{ else }}
+    <span class="pagination-next is-disabled">{{ site.Params.label_next | default "다음 →" }}</span>
+  {{ end }}
+</nav>
+{{- end }}

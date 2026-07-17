@@ -1,16 +1,44 @@
 {{ define "main" }}
+{{ $isKeywords := eq .Data.Plural "keywords" }}
 <h1>{{ .Title }}</h1>
-<p class="taxonomy-desc">{{ site.Params.label_taxonomy_desc | default "카테고리별로 글을 모아볼 수 있습니다." }}</p>
-<ul class="taxonomy-list">
-  {{ range .Data.Terms.Alphabetical }}
-  <li class="taxonomy-item">
-    <a class="taxonomy-link" href="{{ .Page.Permalink }}">
-      <span class="taxonomy-name">{{ .Page.Title }}</span>
-      <span class="taxonomy-count">{{ .Count }}{{ site.Params.label_count_suffix | default "편" }}</span>
-    </a>
-  </li>
-  {{ else }}
-  <li class="taxonomy-empty">{{ site.Params.label_taxonomy_empty | default "아직 카테고리가 없습니다." }}</li>
+{{ if $isKeywords }}
+  {{/* 키워드는 자동 부여라 단발 term이 대다수(pulse 265개 중 229개) — 2편 이상만 노출한다 */}}
+  <p class="taxonomy-desc">{{ site.Params.label_keywords_desc | default "키워드별로 글을 모아볼 수 있습니다." }}</p>
+  {{ $termPages := slice }}
+  {{ range .Data.Terms.ByCount }}
+    {{ if ge .Count 2 }}{{ $termPages = $termPages | append .Page }}{{ end }}
   {{ end }}
-</ul>
+  {{ if $termPages }}
+    {{ $paginator := .Paginate $termPages 50 }}
+    <ul class="taxonomy-list">
+      {{ range $paginator.Pages }}
+      <li class="taxonomy-item">
+        <a class="taxonomy-link" href="{{ .Permalink }}">
+          <span class="taxonomy-name">{{ .Title }}</span>
+          <span class="taxonomy-count">{{ len .Pages }}{{ site.Params.label_count_suffix | default "편" }}</span>
+        </a>
+      </li>
+      {{ end }}
+    </ul>
+    {{ partial "pagination.html" (dict "paginator" $paginator) }}
+  {{ else }}
+    <ul class="taxonomy-list">
+      <li class="taxonomy-empty">{{ site.Params.label_keywords_empty | default "아직 키워드가 없습니다." }}</li>
+    </ul>
+  {{ end }}
+{{ else }}
+  <p class="taxonomy-desc">{{ site.Params.label_categories_desc | default (site.Params.label_taxonomy_desc | default "카테고리별로 글을 모아볼 수 있습니다.") }}</p>
+  <ul class="taxonomy-list">
+    {{ range .Data.Terms.Alphabetical }}
+    <li class="taxonomy-item">
+      <a class="taxonomy-link" href="{{ .Page.Permalink }}">
+        <span class="taxonomy-name">{{ .Page.Title }}</span>
+        <span class="taxonomy-count">{{ .Count }}{{ site.Params.label_count_suffix | default "편" }}</span>
+      </a>
+    </li>
+    {{ else }}
+    <li class="taxonomy-empty">{{ site.Params.label_taxonomy_empty | default "아직 카테고리가 없습니다." }}</li>
+    {{ end }}
+  </ul>
+{{ end }}
 {{ end }}

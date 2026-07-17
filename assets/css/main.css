@@ -250,6 +250,31 @@ details.sources li:last-child { margin-bottom: 0; }
 }
 .search-empty { padding: 0.6rem 0.8rem; color: #6b6b6b; font-size: 0.85rem; }
 
+/* Search page — 사이드바 드롭다운과 달리 본문 흐름에 놓이는 결과 목록 */
+.search-page { max-width: 40rem; }
+.search-page-label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+.search-page-results {
+  margin-top: 1rem;
+  max-height: none;
+  box-shadow: none;
+  padding: 0.4rem 0;
+}
+.search-page-results li { border-bottom: 1px solid #f0f0f0; padding: 0.4rem 0; }
+.search-page-results li:last-child { border-bottom: none; }
+.search-page-results a { font-size: 1rem; font-weight: 600; }
+.search-excerpt {
+  margin: 0.15rem 0 0;
+  padding: 0 0.8rem 0.3rem;
+  color: #555;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+.search-noscript { color: #6b6b6b; font-size: 0.9rem; }
+
 /* ── Site Navigation ──────────────────────────────────────────── */
 .site-nav {
   display: flex;
@@ -272,6 +297,14 @@ details.sources li:last-child { margin-bottom: 0; }
 }
 
 .nav-menu { flex: 1; }
+
+.nav-search {
+  color: #444;
+  text-decoration: none;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+.nav-search:hover { color: var(--accent); }
 
 /* Top-level menu list */
 .menu-list {

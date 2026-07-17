@@ -2,7 +2,9 @@
   <div class="sidebar-block sidebar-search">
     <label class="sidebar-heading" for="site-search">{{ site.Params.label_search | default "검색" }}</label>
     <input type="search" id="site-search" class="search-input" placeholder="{{ site.Params.label_search_placeholder | default "글 검색…" }}"
-           autocomplete="off" data-index-url="{{ "index.json" | absURL }}">
+           autocomplete="off" data-search-input data-search-results="#search-results"
+           data-index-url="{{ "index.json" | absURL }}" data-limit="8" data-search-dismiss="true"
+           data-empty-label="{{ site.Params.label_search_empty | default "결과 없음" }}">
     <ul class="search-results" id="search-results" hidden></ul>
   </div>
 

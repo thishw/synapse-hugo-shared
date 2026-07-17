@@ -1,0 +1,9 @@
+{{- /*
+  noindex 판정 단일 정본 — baseof(robots 메타)와 sitemap.xml이 같은 규칙을 쓴다.
+  두 곳이 갈라지면 sitemap "크롤하라" vs 페이지 "noindex" 신호 불일치가 재발한다.
+  반환: true = 색인 대상 아님.
+*/ -}}
+{{- $thinTerm := and (eq .Kind "term") (lt (len .Pages) 5) -}}
+{{- $emptyHome := and (eq .Kind "home") (eq (len (where .Site.RegularPages "Section" "posts")) 0) -}}
+{{- $optOut := eq (.Params.noindex | default false) true -}}
+{{- return (or $thinTerm $emptyHome $optOut) -}}
