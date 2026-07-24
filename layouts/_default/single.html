@@ -8,6 +8,14 @@
     </nav>
     <h1>{{ .Title }}</h1>
     {{ if eq .Section "posts" }}<time>{{ .Date.Format "2006-01-02" }}</time>{{ end }}
+    {{- /* 글별 AI 일러스트 히어로 (Syndicator D15) — 글 자체 og_image가 있을 때만.
+           site.Params.og_image(기본 OG 카드) 폴백은 소셜 메타 전용이라 본문엔 안 건다. */ -}}
+    {{- if and (eq .Section "posts") .Params.og_image site.Params.show_hero }}
+    <figure class="post-hero">
+      <img src="{{ .Params.og_image | absURL }}" alt="{{ .Title }}" width="1200" height="675" loading="lazy" decoding="async">
+      <figcaption class="post-hero-caption">{{ site.Params.label_ai_image | default "AI-generated illustration" }}</figcaption>
+    </figure>
+    {{- end }}
     {{- $mt := .Params.media_type -}}
     {{- if or (eq $mt "news") (eq $mt "local_business") (eq $mt "webpage") -}}
     {{- /* Syndicator 매체: pulse 검증 로직 — main-entity JSON-LD 정확히 1개, breadcrumb JSON-LD 포함(카테고리 존재 시) */ -}}
